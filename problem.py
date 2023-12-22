@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import StratifiedGroupKFold, StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 
 import rampwf as rw
 
@@ -11,22 +11,22 @@ problem_title = "Urban trees: towards a clinical study"
 _event_label_names = ['C2', 'C1', 'C3', 'C4', 'NaN', 'C5']
 
 description_features_cat = ['type_sol',
-                        'classe_age',
-                        'classe_hauteur',
-                        'classe_circonference',
-                        'vigueur_pousse',
-                        'plaie_collet',
-                        'fissure_tronc',
-                        'plaie_tronc',
-                        'fissure_houppier',
-                        'bois_mort_houppier',
-                        'plaie_houppier',
-                        'prescription_1',
-                        'prescription_2',
-                        'prescription_3',
-                        'type_delai_1',
-                        'type_delai_2']
-description_features_string=  ["ID_ARBRE",
+                            'classe_age',
+                            'classe_hauteur',
+                            'classe_circonference',
+                            'vigueur_pousse',
+                            'plaie_collet',
+                            'fissure_tronc',
+                            'plaie_tronc',
+                            'fissure_houppier',
+                            'bois_mort_houppier',
+                            'plaie_houppier',
+                            'prescription_1',
+                            'prescription_2',
+                            'prescription_3',
+                            'type_delai_1',
+                            'type_delai_2']
+description_features_string = ["ID_ARBRE",
                                'commune',
                                'quartier',
                                'site',
@@ -95,7 +95,9 @@ score_types_3 = rw.score_types.ROCAUC(name='auc')
 score_types = [
     # The official score combines the two scores with weights 2/3 and 1/3.
     rw.score_types.Combined(
-        name='combined', score_types=[score_type_1, score_type_2, score_types_3],
+        name='combined', score_types=[score_types_1,
+                                      score_types_2,
+                                      score_types_3],
         weights=[0.7, 0.2, 0.1], precision=3),
 ]
 
@@ -106,22 +108,23 @@ def _get_data(path=".", specification=False):
     # returns X (input) and y (output) arrays
 
     if not specification:
-        data = pd.read_csv(os.path.join(path, "data", "sgl-arbres-urbains-wgs84.csv"))
+        data = pd.read_csv(
+            os.path.join(path, "data", "sgl-arbres-urbains-wgs84.csv"))
     else:
-        data = pd.read_csv(os.path.join(path, "data", specification +  ".csv"))
-
-    #Dataset
-    X_cat= data[description_features_cat]
+        data = pd.read_csv(
+            os.path.join(path, "data", specification + ".csv"))
+    # Dataset
+    X_cat = data[description_features_cat]
     X_string = data[description_features_string]
     X_num = data[description_features_num]
     X = pd.concat([X_cat, X_string, X_num], axis=1)
 
-    #Labels
+    # Labels
     y = data[target_features]
-    y_encoded = np.array(y['classification_diagnostic'].map(cat_to_int).fillna(-1).astype('int8'))
-
+    y_encoded = np.array(
+        y['classification_diagnostic'].map(cat_to_int).fillna(-1).astype(
+            'int8'))
     return X, y_encoded
-
 
 
 def get_train_data(path="."):
@@ -132,7 +135,6 @@ def get_train_data(path="."):
 def get_test_data(path="."):
     f_name = 'test.csv'
     return _get_data(path, f_name)
-
 
 
 def get_cv(X, y):
