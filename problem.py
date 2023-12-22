@@ -102,12 +102,12 @@ score_types = [
 ]
 
 
-def _get_data(path=".", specification=False):
+def _get_data(path=".", specification=None):
     # Load data from csv files into pd.DataFrame
     #
     # returns X (input) and y (output) arrays
 
-    if not specification:
+    if specification is not None:
         data = pd.read_csv(
             os.path.join(path, "data", "sgl-arbres-urbains-wgs84.csv"))
     else:
@@ -133,10 +133,10 @@ def get_train_data(path="."):
 
 
 def get_test_data(path="."):
-    f_name = 'test.csv'
+    f_name = 'test'
     return _get_data(path, f_name)
 
 
 def get_cv(X, y):
-    cv = StratifiedKFold(n_splits=2, shuffle=True, random_state=42)
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
     return cv.split(X, y)

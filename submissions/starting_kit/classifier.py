@@ -1,7 +1,8 @@
+
 from sklearn.base import BaseEstimator
 from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.impute import SimpleImputer
-from sklearn.impute import OrdinalEncoder
+from sklearn.preprocessing import OrdinalEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestClassifier
