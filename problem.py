@@ -84,21 +84,28 @@ _event_label_int = list(int_to_cat)
 Predictions = rw.prediction_types.make_multiclass(label_names=_event_label_int)
 workflow = rw.workflows.Classifier()
 
-score_types_1 = rw.score_types.BalancedAccuracy(
-        name="bal_acc", precision=3, adjusted=False
-    )
+# score_types_1 = rw.score_types.BalancedAccuracy(
+#         name="bal_acc", precision=3, adjusted=False
+#     )
 
-score_types_2 = rw.score_types.Accuracy(name="acc", precision=3)
+# score_types_2 = rw.score_types.Accuracy(name="acc", precision=3)
 
-score_types_3 = rw.score_types.ROCAUC(name='auc')
+# score_types_3 = rw.score_types.ROCAUC(name='auc')
+
+# score_types = [
+#     # The official score combines the two scores with weights 2/3 and 1/3.
+#     rw.score_types.Combined(
+#         name='combined', score_types=[score_types_1,
+#                                       score_types_2,
+#                                       score_types_3],
+#         weights=[0.7, 0.2, 0.1], precision=3),
+# ]
 
 score_types = [
-    # The official score combines the two scores with weights 2/3 and 1/3.
-    rw.score_types.Combined(
-        name='combined', score_types=[score_types_1,
-                                      score_types_2,
-                                      score_types_3],
-        weights=[0.7, 0.2, 0.1], precision=3),
+    rw.score_types.BalancedAccuracy(
+        name="bal_acc", precision=3, adjusted=False
+    ),
+    rw.score_types.Accuracy(name="acc", precision=3),
 ]
 
 
@@ -146,7 +153,7 @@ def get_cv(X, y):
     # up to 10 fold cross-validation based on 5 splits, using two parts for
     # testing in each fold
     n_splits = 5
-    cv = StratifiedKFold(n_splits=n_splits)
+    cv = StratifiedKFold(n_splits=n_splits, random_state=42)
     splits = list(cv.split(X, y))
     # 5 folds, each point is in test set 4x
     # set k to a lower number if you want less folds
