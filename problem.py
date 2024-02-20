@@ -153,7 +153,7 @@ def get_cv(X, y):
     # up to 10 fold cross-validation based on 5 splits, using two parts for
     # testing in each fold
     n_splits = 5
-    cv = StratifiedKFold(n_splits=n_splits, random_state=42)
+    cv = StratifiedKFold(n_splits=n_splits)
     splits = list(cv.split(X, y))
     # 5 folds, each point is in test set 4x
     # set k to a lower number if you want less folds
