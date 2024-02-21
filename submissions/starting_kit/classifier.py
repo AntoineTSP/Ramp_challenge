@@ -72,10 +72,11 @@ class Classifier(BaseEstimator):
               description_features_string),
              ("cat",
               OrdinalEncoder(handle_unknown='use_encoded_value',
-                             unknown_value=-1000), description_features_cat)])
+                             unknown_value=-1000), description_features_cat)], 
+            remainder="drop")
 
         self.numeric_transformer = Pipeline(
-            steps=[("imputer", SimpleImputer(strategy="most_frequent")),
+            steps=[("imputer", SimpleImputer(strategy="median")),
                    ("scaler", StandardScaler())])
 
         self.model = RandomForestClassifier(random_state=42)
