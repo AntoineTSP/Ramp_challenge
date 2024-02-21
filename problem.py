@@ -5,7 +5,7 @@ from sklearn.model_selection import StratifiedKFold
 
 import rampwf as rw
 
-problem_title = "Urban trees: towards a clinical study"
+problem_title = "Urban trees: Towards a Clinical Study"
 
 
 _event_label_names = ['C2', 'C1', 'C3', 'C4', 'NaN', 'C5']
