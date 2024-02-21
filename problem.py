@@ -5,7 +5,7 @@ from sklearn.model_selection import StratifiedKFold
 
 import rampwf as rw
 
-problem_title = "Urban trees: towards a clinical study"
+problem_title = "Urban trees: Towards a Clinical Study"
 
 
 _event_label_names = ['C2', 'C1', 'C3', 'C4', 'NaN', 'C5']
@@ -149,7 +149,7 @@ def get_cv(X, y):
     #return cv.split(X, y)
 
     # using 5 folds as default
-    k = 5
+    k = 3
     # up to 10 fold cross-validation based on 5 splits, using two parts for
     # testing in each fold
     n_splits = 5

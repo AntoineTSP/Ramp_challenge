@@ -1,8 +1,9 @@
 numpy
 pandas
+pyarrow
 scikit-learn>=0.22
-missingno
 matplotlib
+missingno
 seaborn
 joblib
 osfclient
